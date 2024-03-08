@@ -6,6 +6,12 @@ It examines annual reports on sec.gov, extracting financial statements from the 
 
 Electronic Data Gathering, Analysis, and Retrieval (EDGAR); Securities and Exchange Comission(SEC); Web Crawling 
 
+### Required Python packages
+
+- bs4 
+- requets
+- pandas
+
 ### Parameters
 - URL of a firm’s annual report
   - E.g: https://www.sec.gov/Archives/edgar/data/0000320193/000032019323000106/aapl-20230930.htm 
