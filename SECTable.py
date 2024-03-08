@@ -1,25 +1,43 @@
+#
+# Extract consolidate statement of operations from sec.gov finantial report
+#
+# Brian Kim
+# GMBA, Tunghai University
+# 2024/03/08
+#
+
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
-email="thugmba@gmail.com"
-website="http://www.thu.edu.tw"
-headers = { "User-Agent": f"{website} {email}"}
+headers = {"User-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36"}
 
-url = 'https://www.sec.gov/ixviewer/ix.html?doc=/Archives/edgar/data/0000320193/000032019323000106/aapl-20230930.htm#i1cb1ba018cb1455aa66bd3f9ab0c5b1a_73'
-response = requests.get(url,headers=headers)
+# URL for the company
+base_url = "https://www.sec.gov/Archives/edgar/data/0000320193/000032019323000106/aapl-20230930.htm"
+edgar_resp = requests.get(base_url, headers=headers)
+edgar_str = edgar_resp.text
 
-# Parse the HTML content using BeautifulSoup
-# soup = BeautifulSoup(html_content, 'html.parser')
-soup = BeautifulSoup(response.text, 'html.parser')
+# Locate table in the html
+soup = BeautifulSoup(edgar_str, 'html.parser')
+s =  soup.find('span', recursive=True, string='CONSOLIDATED STATEMENTS OF OPERATIONS')
+s =  soup.find('span', recursive=True, string='CONSOLIDATED STATEMENTS OF OPERATIONS')
+t = s.find_next('table')
 
-# Find the first occurrence of the text you're looking for
-target_text = "In millions, except number of shares, which are reflected in thousands, and per-share amounts"
-target_text = "CONSOLIDATED STATEMENTS OF OPERATIONS"
-target_element = soup.find(string=target_text)
+# Convert it to dataframe
+data = []
+for row in t.find_all('tr'):
+    row_data = []
+    for cell in row.find_all('td'):
+#        row_data.append(cell.text)
+        cell_val = cell.text.replace(u'\xa0', u' ')
+        if not cell_val == '$':
+            row_data.append(cell_val)
+    data.append(row_data)
+df = pd.DataFrame(data)
 
-# Find the first table tag after the target text
-table_after_text = target_element.find_next('table')
+# Select the column  
+target_val = df.iloc[4:,1]
+print(target_val)
 
-# Now you have the first table tag after the specified text
-print(table_after_text)
+# Save to CSV file
+target_val.to_csv('apple.csv',  encoding='utf-8')
