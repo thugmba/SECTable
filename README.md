@@ -12,13 +12,13 @@ Electronic Data Gathering, Analysis, and Retrieval (EDGAR); Securities and Excha
 ![](images/Annual_Report.jpg)
 
 ### Output
-- Show data on the screen
+1. Show data on the screen
 ![](images/Output_Screen.jpg)
-- Save them to a CSV file
+2. Save them to a CSV file
 ![](images/CSV.png)
 
 ### To-do
-- Create a multi-year table
-- Use ticker instead of URL
-- Search multiple tickers simultaneously
+1. Create a multi-year table
+2. Use ticker instead of URL
+3. Search multiple tickers simultaneously
 
