@@ -40,4 +40,4 @@ target_val = df.iloc[4:,1]
 print(target_val)
 
 # Save to CSV file
-target_val.to_csv('apple.csv',  encoding='utf-8')
+target_val.to_csv('Apple.csv',  encoding='utf-8')
