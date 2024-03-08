@@ -1,10 +1,10 @@
-#
-# Extract consolidate statement of operations from sec.gov finantial report
-#
-# Brian Kim
-# GMBA, Tunghai University
-# 2024/03/08
-#
+"""
+File: SECTable.py
+Author: Brian Kim, Global Master of Business Administration @ Tunghai University
+Date: 2024-03-08
+
+Description: Extract consolidate statement of operations from sec.gov finantial report
+"""
 
 from bs4 import BeautifulSoup
 import requests
@@ -28,7 +28,6 @@ data = []
 for row in t.find_all('tr'):
     row_data = []
     for cell in row.find_all('td'):
-#        row_data.append(cell.text)
         cell_val = cell.text.replace(u'\xa0', u' ')
         if not cell_val == '$':
             row_data.append(cell_val)
